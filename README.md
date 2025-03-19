@@ -1,7 +1,17 @@
 ## Steps to get started
 
-### Download package
+### Install package
 
 ```go
-go get github.com/mnkrana/crypto-balance@latest
+go install github.com/mnkrana/crypto-balance@latest
 ```
+
+### Add .env to your GOPATH
+
+```sh
+touch $GOPATH/bin/.env
+```
+
+### Environment variables
+
+Check env-example file to add environment variables

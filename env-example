@@ -1,0 +1,5 @@
+NETWORK="PUPPYNET"
+
+PUPPYNET_NETWORK="PUPPYNET"
+PUPPYNET_RPCURL="https://puppynet.shibrpc.com"
+PUPPYNET_PKEY="<your-wallet-private-key>"
