@@ -1,5 +1,8 @@
 ## Steps to get started
 
+This works based on the `.env` file contents.
+To switch the chain, change the network and RPC in the `.env`
+
 ### Install package
 
 ```go
@@ -15,3 +18,9 @@ touch $GOPATH/bin/.env
 ### Environment variables
 
 Check env-example file to add environment variables
+
+### Usage example
+
+```sh
+crypto-balance 0xB9160721D278482F153ae7eE9DFb037471228810
+```
