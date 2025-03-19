@@ -3,6 +3,7 @@ package main
 import (
 	"log"
 	"os"
+	"path/filepath"
 
 	"github.com/joho/godotenv"
 	"github.com/mnkrana/crypto-balance/internal/adapters"
@@ -10,8 +11,15 @@ import (
 )
 
 func loadEnv() {
-	if err := godotenv.Overload(".env"); err != nil {
-		log.Fatalf("Error loading .env file: %v", err)
+	execPath, err := os.Executable()
+	if err != nil {
+		log.Fatalf("Error retrieving executable path: %v", err)
+	}
+	execDir := filepath.Dir(execPath)
+	envPath := filepath.Join(execDir, ".env")
+
+	if err := godotenv.Overload(envPath); err != nil {
+		log.Fatalf("Error loading .env file from %s: %v", envPath, err)
 	}
 }
 
