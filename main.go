@@ -35,5 +35,5 @@ func main() {
 
 	rpcAdapter := initDependencies()
 	router := handler.NewRouter(rpcAdapter)
-	router.HandleRequest("balance", os.Args[1])
+	router.HandleRequest(os.Args[1], os.Args[2])
 }

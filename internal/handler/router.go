@@ -26,6 +26,7 @@ func initializeCommands(
 
 	commands := map[string]ports.Command{
 		"balance": commands.NewBalanceCommand(rpc),
+		"token":   commands.NewTokenBalanceCommand(rpc),
 	}
 	return commands
 }
