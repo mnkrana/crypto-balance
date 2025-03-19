@@ -21,6 +21,14 @@ Check env-example file to add environment variables
 
 ### Usage example
 
+- Get native ERC20 balance
+
 ```sh
-crypto-balance 0xB9160721D278482F153ae7eE9DFb037471228810
+crypto-balance balance <wallet or contract address>
+```
+
+- Get any ERC20 balance
+
+```sh
+crypto-balance token <wallet or contract address>:<ECR20 contract address>
 ```
