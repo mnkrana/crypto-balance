@@ -2,38 +2,23 @@ package main
 
 import (
 	"log"
-	"os"
-	"path/filepath"
 
-	"github.com/joho/godotenv"
 	"github.com/mnkrana/crypto-balance/internal/adapters"
 	"github.com/mnkrana/crypto-balance/internal/handler"
 )
 
-func loadEnv() {
-	execPath, err := os.Executable()
-	if err != nil {
-		log.Fatalf("Error retrieving executable path: %v", err)
-	}
-	execDir := filepath.Dir(execPath)
-	envPath := filepath.Join(execDir, ".env")
-
-	if err := godotenv.Overload(envPath); err != nil {
-		log.Fatalf("Error loading .env file from %s: %v", envPath, err)
-	}
-}
-
-func initDependencies() *adapters.RPC {
+func initDependencies() *handler.Router {
 	chainConfig := adapters.NewChain()
 	rpcAdapter := adapters.NewRPCAdapter(chainConfig)
 	rpcAdapter.Print()
-	return rpcAdapter
+	return handler.NewRouter(rpcAdapter)
 }
 
 func main() {
-	loadEnv()
+	handler.LoadEnv()
+	router := initDependencies()
 
-	rpcAdapter := initDependencies()
-	router := handler.NewRouter(rpcAdapter)
-	router.HandleRequest(os.Args[1], os.Args[2])
+	if err := router.RegisterCommands().Execute(); err != nil {
+		log.Fatal(err)
+	}
 }
