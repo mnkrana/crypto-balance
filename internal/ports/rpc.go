@@ -15,6 +15,7 @@ type RpcPort interface {
 	GetUserAddress() common.Address
 	GetPK() *ecdsa.PrivateKey
 	GetAuth(value *big.Int) (*bind.TransactOpts, error)
+	GetAuthByPrivateKey(pKey *ecdsa.PrivateKey, value *big.Int) (*bind.TransactOpts, error)
 	Print()
 	GetDetails() string
 }

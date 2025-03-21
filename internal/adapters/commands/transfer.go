@@ -40,29 +40,20 @@ func (m *TransferCommand) ExecuteRequest(action string, request any) (string, er
 		return utils.HandleError("private key is invalid", err)
 	}
 
-	fromAddress := utils.GetAddressFromPrivateKey(pKey)
-
 	to, err := utils.GetAddressFromRaw(req.To)
 	if err != nil {
 		return utils.HandleError("to address is invalid", err)
 	}
 
-	nonce, err := m.Rpc.GetEthClient().PendingNonceAt(context.Background(), fromAddress)
-	if err != nil {
-		log.Fatal("failed to fetch nonce:", err)
-	}
-
 	amount := new(big.Int)
 	amount.SetString(req.Amount, 10)
 
-	gasPrice, err := m.Rpc.GetEthClient().SuggestGasPrice(context.Background())
+	auth, err := m.Rpc.GetAuthByPrivateKey(pKey, amount)
 	if err != nil {
-		log.Fatal("failed to get gas price:", err)
+		log.Fatal("failed to get auth:", err)
 	}
 
-	gasLimit := uint64(21000)
-
-	tx := types.NewTransaction(nonce, to, amount, gasLimit, gasPrice, nil)
+	tx := types.NewTransaction(auth.Nonce.Uint64(), to, amount, auth.GasLimit, auth.GasPrice, nil)
 
 	chainID := big.NewInt(m.Rpc.GetChainId().Int64())
 	signedTx, err := types.SignTx(tx, types.NewEIP155Signer(chainID), pKey)

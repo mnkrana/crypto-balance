@@ -84,8 +84,32 @@ func (svc *RPC) GetAuth(value *big.Int) (*bind.TransactOpts, error) {
 	}
 	auth.Nonce = big.NewInt(int64(nonce))
 	auth.Value = value
-	auth.GasLimit = 0
+	auth.GasLimit = 21000
 	auth.GasPrice = big.NewInt(0).Mul(gasPrice, big.NewInt(2))
+	return auth, nil
+}
+
+func (svc *RPC) GetAuthByPrivateKey(pKey *ecdsa.PrivateKey, value *big.Int) (*bind.TransactOpts, error) {
+	address := utils.GetAddressFromPrivateKey(pKey)
+	nonce, err := svc.Rpc.EthClient.PendingNonceAt(context.Background(), address)
+	if err != nil {
+		log.Fatal("error in geting Nonce", err)
+	}
+
+	gasPrice, err := svc.Rpc.EthClient.SuggestGasPrice(context.Background())
+	if err != nil {
+		log.Fatal("error in getting gas price", err)
+	}
+
+	auth, err := bind.NewKeyedTransactorWithChainID(pKey, svc.Rpc.ChainId)
+	if err != nil {
+		fmt.Println("error in getting key transactor", err)
+		return nil, err
+	}
+	auth.Nonce = big.NewInt(int64(nonce))
+	auth.Value = value
+	auth.GasLimit = 21000
+	auth.GasPrice = gasPrice
 	return auth, nil
 }
 
