@@ -1,8 +1,6 @@
 package handler
 
 import (
-	"log"
-
 	"github.com/mnkrana/crypto-balance/internal/adapters/commands"
 	"github.com/mnkrana/crypto-balance/internal/ports"
 	"github.com/mnkrana/crypto-balance/internal/utils"
@@ -61,7 +59,6 @@ func (r *Router) balanceCommand() *cobra.Command {
 				Address: args[0],
 			}
 
-			log.Println(request)
 			result, err := r.HandleRequest("balance", request)
 			if err != nil {
 				cmd.PrintErrln(err)

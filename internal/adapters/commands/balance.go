@@ -2,7 +2,7 @@ package commands
 
 import (
 	"context"
-	"log"
+	"fmt"
 	"math/big"
 
 	"github.com/mnkrana/crypto-balance/internal/ports"
@@ -43,7 +43,6 @@ func (m *BalanceCommand) ExecuteRequest(action string, request any) (string, err
 
 	ethValue := new(big.Float).Quo(new(big.Float).SetInt(balance), big.NewFloat(1e18))
 
-	log.Printf("Balance: %f ETH\n", ethValue)
-
-	return ethValue.String(), nil
+	response := fmt.Sprintf("\033[32mBalance: %f ETH\033[0m", ethValue)
+	return response, nil
 }

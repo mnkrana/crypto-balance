@@ -75,7 +75,6 @@ func (m *TransferCommand) ExecuteRequest(action string, request any) (string, er
 		log.Fatal("failed to send transaction:", err)
 	}
 
-	fmt.Println("Transaction sent! Hash:", signedTx.Hash().Hex())
-
-	return signedTx.Hash().Hex(), nil
+	response := fmt.Sprintf("\033[32mTx sent: %s \033[0m", signedTx.Hash().Hex())
+	return response, nil
 }

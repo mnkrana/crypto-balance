@@ -90,12 +90,7 @@ func (svc *RPC) GetAuth(value *big.Int) (*bind.TransactOpts, error) {
 }
 
 func (svc *RPC) Print() {
-	fmt.Println("---------------------------------")
-	fmt.Println("Network - ", svc.Rpc.Network)
-	fmt.Println("RPC 	- ", svc.Rpc.RpcUrl)
-	fmt.Println("Client  - ", svc.Rpc.EthClient)
-	fmt.Println("ChainId - ", svc.Rpc.ChainId)
-	fmt.Println("---------------------------------")
+	fmt.Println("Network: ", svc.Rpc.Network)
 }
 
 func (svc *RPC) GetDetails() string {
