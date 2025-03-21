@@ -30,5 +30,11 @@ crypto-balance balance <wallet or contract address>
 - Get any ERC20 balance
 
 ```sh
-crypto-balance token <wallet or contract address>:<ECR20 contract address>
+crypto-balance token <wallet or contract address> <ECR20 contract address>
+```
+
+- Transfer crypto
+
+```sh
+crypto-balance transfer <private key of sender> <receiver address> <amount in wei>
 ```
