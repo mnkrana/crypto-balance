@@ -9,6 +9,10 @@ import (
 	"github.com/mnkrana/crypto-balance/internal/utils"
 )
 
+type BalanceRequest struct {
+	Address string
+}
+
 type BalanceCommand struct {
 	Rpc ports.RpcPort
 }
@@ -18,16 +22,16 @@ func NewBalanceCommand(port ports.RpcPort) *BalanceCommand {
 }
 
 func (m *BalanceCommand) ExecuteRequest(action string, request any) (string, error) {
-	req, ok := request.(string)
+	req, ok := request.(*BalanceRequest)
 	if !ok {
 		return utils.HandleError("invalid request format", nil)
 	}
 
-	if req == "" {
+	if req.Address == "" {
 		return utils.HandleError("address is required", nil)
 	}
 
-	address, err := utils.GetAddressFromRaw(req)
+	address, err := utils.GetAddressFromRaw(req.Address)
 	if err != nil {
 		return utils.HandleError("address is invalid", err)
 	}

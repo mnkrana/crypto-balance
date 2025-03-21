@@ -4,13 +4,17 @@ import (
 	"context"
 	"log"
 	"math/big"
-	"strings"
 
 	"github.com/ethereum/go-ethereum"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/mnkrana/crypto-balance/internal/ports"
 	"github.com/mnkrana/crypto-balance/internal/utils"
 )
+
+type TokenRequest struct {
+	Address string
+	Token   string
+}
 
 type TokenBalanceCommand struct {
 	Rpc ports.RpcPort
@@ -21,22 +25,21 @@ func NewTokenBalanceCommand(port ports.RpcPort) *TokenBalanceCommand {
 }
 
 func (m *TokenBalanceCommand) ExecuteRequest(action string, request any) (string, error) {
-	req, ok := request.(string)
+	req, ok := request.(*TokenRequest)
 	if !ok {
 		return utils.HandleError("invalid request format", nil)
 	}
 
-	if req == "" {
-		return utils.HandleError("address is required", nil)
+	if req.Address == "" || req.Token == "" {
+		return utils.HandleError("invalid request", nil)
 	}
 
-	addresses := strings.Split(req, ":")
-	address, err := utils.GetAddressFromRaw(addresses[0])
+	address, err := utils.GetAddressFromRaw(req.Address)
 	if err != nil {
 		return utils.HandleError("address is invalid", err)
 	}
 
-	token, err := utils.GetAddressFromRaw(addresses[1])
+	token, err := utils.GetAddressFromRaw(req.Token)
 	if err != nil {
 		return utils.HandleError("token is invalid", err)
 	}
